@@ -33,7 +33,7 @@ extractInfor = []
 
 image_extensions = ['jpg', 'jpeg', 'raw', 'bmp', 'heic']
 
-
+# add check file co phai anh hay k?
 def file_is_image(dir_path):
     extension = str(dir_path).split('.')[-1]
     extension = extension.lower()
@@ -75,7 +75,7 @@ def get_info(get_type):
         for file in files:
             dir_1 = os.path.join(root_dir, file)
             dir_2 = dir_1.replace('/', '\\')
-            if file_is_image(dir_2):
+            if file_is_image(dir_2): # add neu la anh thi moi add vao
                 list_image_dirs.append(dir_2)
     print(list_image_dirs)
 
@@ -143,6 +143,8 @@ def get_info(get_type):
                 mm = line.split(' -')[0]
                 dict_txt[mydict.get(pre)] = mm
             pre = line
+
+        # add neu khong lay duoc thong tin nao thi skip
         if len(dict_txt) == 0:
             continue
 
@@ -155,7 +157,7 @@ def get_info(get_type):
         dict_txt[PASS_PAYPAL] = pass_pay
         dict_txt[FOLDER] = child_folder
         # parse zipcode
-        dict_txt[ZIPCODE] = ""
+        dict_txt[ZIPCODE] = "" # defaul zipcode
         if dict_txt.get(ADDRESS):
             address_info = dict_txt[ADDRESS]
             tinh = address_info.split(', ')[-1]

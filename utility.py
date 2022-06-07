@@ -44,11 +44,18 @@ def print_excel(data, savepath):
 
     for i in range(len(data)):
         sheet.cell(row=i + 2, column=1).value = i + 1
-        sheet.cell(row=i + 2, column=2).value = data[i][FULL_NAME]
-        sheet.cell(row=i + 2, column=3).value = data[i][BIRTHDAY]
-        sheet.cell(row=i + 2, column=6).value = data[i][PASS_PAYPAL]
-        sheet.cell(row=i + 2, column=9).value = data[i][ADDRESS]
-        sheet.cell(row=i + 2, column=10).value = data[i][ZIPCODE]
-        sheet.cell(row=i + 2, column=11).value = data[i][ID]
-        sheet.cell(row=i + 2, column=17).value = data[i][FOLDER]
+        if data[i].get(FULL_NAME):
+            sheet.cell(row=i + 2, column=2).value = data[i][FULL_NAME]
+        if data[i].get(BIRTHDAY):
+            sheet.cell(row=i + 2, column=3).value = data[i][BIRTHDAY]
+        if data[i].get(PASS_PAYPAL):
+            sheet.cell(row=i + 2, column=6).value = data[i][PASS_PAYPAL]
+        if data[i].get(ADDRESS):
+            sheet.cell(row=i + 2, column=9).value = data[i][ADDRESS]
+        if data[i].get(ZIPCODE):
+            sheet.cell(row=i + 2, column=10).value = data[i][ZIPCODE]
+        if data[i].get(ID):
+            sheet.cell(row=i + 2, column=11).value = data[i][ID]
+        if data[i].get(FOLDER):
+            sheet.cell(row=i + 2, column=17).value = data[i][FOLDER]
     output.save(savepath)
