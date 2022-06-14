@@ -57,11 +57,11 @@ def get_info(get_type):
     if get_type == 'CMT':
         get_link = link_cmt
         mydict = mydict_cmt
-        # dict_txt = dict_txt_cmt
+
     else:
         get_link = link_gplx
         mydict = mydict_gplx
-        # dict_txt = dict_txt_gplx
+
 
     # clear output file
     # output file in selected folder + output
@@ -220,5 +220,4 @@ class GetInfo(Thread):
 root = Tk()
 app = Main(root)
 root.title('Image to Text')
-# root.geometry("400x300")
 root.mainloop()
