@@ -33,6 +33,7 @@ extractInfor = []
 
 image_extensions = ['jpg', 'jpeg', 'raw', 'bmp', 'heic']
 
+
 # add check file co phai anh hay k?
 def file_is_image(dir_path):
     extension = str(dir_path).split('.')[-1]
@@ -62,7 +63,6 @@ def get_info(get_type):
         get_link = link_gplx
         mydict = mydict_gplx
 
-
     # clear output file
     # output file in selected folder + output
     dir_out = os.path.join(folder_image, 'output')
@@ -75,7 +75,7 @@ def get_info(get_type):
         for file in files:
             dir_1 = os.path.join(root_dir, file)
             dir_2 = dir_1.replace('/', '\\')
-            if file_is_image(dir_2): # add neu la anh thi moi add vao
+            if file_is_image(dir_2):  # add neu la anh thi moi add vao
                 list_image_dirs.append(dir_2)
     print(list_image_dirs)
 
@@ -157,7 +157,7 @@ def get_info(get_type):
         dict_txt[PASS_PAYPAL] = pass_pay
         dict_txt[FOLDER] = child_folder
         # parse zipcode
-        dict_txt[ZIPCODE] = "" # defaul zipcode
+        dict_txt[ZIPCODE] = ""  # defaul zipcode
         if dict_txt.get(ADDRESS):
             address_info = dict_txt[ADDRESS]
             tinh = address_info.split(', ')[-1]

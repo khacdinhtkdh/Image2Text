@@ -29,6 +29,7 @@ Hai Phong:04000-05000
 Hau Giang:95000
 Hoa Binh:36000
 Ho Chi Minh:70000-74000
+TP. Ho Chi Minh:70000-74000
 Hung Yen:17000
 Khanh Hoa:57000
 Kien Giang:91000-92000
