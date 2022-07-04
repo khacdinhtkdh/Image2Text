@@ -73,11 +73,13 @@ def get_info(get_type):
     if os.path.isdir(cmt_folder):
         if not os.path.isdir(cmt_folder):
             os.mkdir(cmt_folder)
+        shutil.rmtree(cmt_folder)
 
     cccd_folder = os.path.join(folder_image, 'CCCD')
     if os.path.isdir(cccd_folder):
         if not os.path.isdir(cccd_folder):
             os.mkdir(cccd_folder)
+        shutil.rmtree(cccd_folder)
 
     # chon folder anh muon lay thong tin
     list_image_dirs = []
