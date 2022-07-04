@@ -48,6 +48,14 @@ def get_full_info(path):
     text_res = detect_text_english(path)
     remove_list = ['CONG HOA', 'Doc lap', 'CAN CUOC', 'CHUNG MINH', 'Ho va ten', 'Gioi tinh', 'Quoc tich']
 
+    def get_type():
+        for v in text_res:
+            if 'CAN CUOC' in v:
+                return 'CCCD'
+            elif 'CHUNG MINH' in v:
+                return "CMT"
+        return None
+
     def remove_by_text(s):
         for v in text_res:
             if s in v:
@@ -116,6 +124,7 @@ def get_full_info(path):
                 v = v[1:]
             return v
 
+    typeID = get_type()
     remove_text()
 
     ID = getID()
@@ -134,4 +143,4 @@ def get_full_info(path):
 
     addr = getAddr()
 
-    return ID, full_name, birth, addr
+    return ID, full_name, birth, addr, typeID

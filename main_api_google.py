@@ -149,6 +149,9 @@ def get_info(get_type):
                 if key in mAddrL:
                     dict_txt[ZIPCODE] = zip_code[key]
 
+        # copy CMT and CCCD
+
+
         extractInfor.append(dict_txt)
 
 
