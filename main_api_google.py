@@ -69,6 +69,16 @@ def get_info(get_type):
     if os.path.isdir(dir_out):
         shutil.rmtree(dir_out)
 
+    cmt_folder = os.path.join(folder_image, 'CMT')
+    if os.path.isdir(cmt_folder):
+        if not os.path.isdir(cmt_folder):
+            os.mkdir(cmt_folder)
+
+    cccd_folder = os.path.join(folder_image, 'CCCD')
+    if os.path.isdir(cccd_folder):
+        if not os.path.isdir(cccd_folder):
+            os.mkdir(cccd_folder)
+
     # chon folder anh muon lay thong tin
     list_image_dirs = []
     for root_dir, dirs, files in os.walk(folder_image):
@@ -119,9 +129,9 @@ def get_info(get_type):
         dict_txt = dict()
 
         # get thong tin
-        mID, mName, mBirth, mAddr = None, None, None, None
+        mID, mName, mBirth, mAddr, typeID = None, None, None, None, None
         try:
-            mID, mName, mBirth, mAddr = apiGoogle.get_full_info(list_image_dir)
+            mID, mName, mBirth, mAddr, typeID = apiGoogle.get_full_info(list_image_dir)
         except:
             print("xu ly anh loi")
 
@@ -150,7 +160,13 @@ def get_info(get_type):
                     dict_txt[ZIPCODE] = zip_code[key]
 
         # copy CMT and CCCD
-
+        cur_folder = parent_folder + child_folder
+        print(cur_folder)
+        os.chmod(cur_folder, 0o777)
+        if 'CMT' in typeID:
+            shutil.copytree(cur_folder, cmt_folder+'\\'+child_folder)
+        else:
+            shutil.copytree(cur_folder, cccd_folder+'\\'+child_folder)
 
         extractInfor.append(dict_txt)
 
