@@ -6,7 +6,7 @@ from google.cloud import vision
 import io
 import os
 
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "key/xenon-axe-354315-6da002141bae.json"
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "plugins/key/xenon-axe-354315-6da002141bae.json"
 
 
 def detect_text_english(path):
@@ -41,7 +41,6 @@ def detect_text_english(path):
     return text_list
 
 
-text_res = detect_text_english('res/FILE TETS/New folder (11)/Nguyễn Tự Hóa-3.jpg')
 remove_list = ['CONG HOA', 'Doc lap', 'CAN CUOC', 'CHUNG MINH', 'Ho va ten', 'Gioi tinh', 'Quoc tich']
 
 
@@ -98,6 +97,17 @@ def get_full_info(path):
                 return v
 
     def getAddr():
+        arrs = []
+        for v in text_res:
+            tmp = re.findall('[\s\S]+,[\s\S]+,[\s\S]+', v)
+            if len(tmp) > 0:
+                arrs.append(tmp[0])
+        if len(arrs) > 0:
+            vv = arrs[-1]
+            if vv.startswith(' '):
+                vv = vv[1:]
+            return vv
+
         if 'tru:' in ss:
             v = ss.split(':')[-1]
             if '\"' in v:
