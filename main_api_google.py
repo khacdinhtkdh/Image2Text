@@ -215,4 +215,5 @@ class GetInfo(Thread):
 root = Tk()
 app = Main(root)
 root.title('Image to Text')
+root.iconbitmap('plugins/mime.ico')
 root.mainloop()
