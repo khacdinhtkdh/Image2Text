@@ -100,9 +100,11 @@ def get_info(get_type):
         os.mkdir(dir_out)
 
     # Get zipcode in zipcode file
+    tinh_text = []
     file_zip = open('plugins/zipcode.txt', 'r')
     for line in file_zip:
         address = line.split(':')[0]
+        tinh_text.append(address)
         address = address.lower()
         code = line.split(':')[1].replace('\n', '')
         if '-' in code:
@@ -133,12 +135,12 @@ def get_info(get_type):
         # get thong tin
         mID, mName, mBirth, mAddr, typeID = None, None, None, None, None
         try:
-            mID, mName, mBirth, mAddr, typeID = apiGoogle.get_full_info(list_image_dir)
+            mID, mName, mBirth, mAddr, typeID = apiGoogle.get_full_info(list_image_dir, tinh_text)
         except:
             print("xu ly anh loi")
 
         # add neu khong lay duoc thong tin nao thi skip
-        if mID is None or mAddr is None or mName is None or mBirth is None:
+        if mID is None or mAddr is None or mName is None or mBirth is None or typeID is None:
             continue
 
         dict_txt[ID] = mID
@@ -164,12 +166,13 @@ def get_info(get_type):
         # copy CMT and CCCD
         cur_folder = parent_folder + child_folder
         print(cur_folder)
-        os.chmod(cur_folder, 0o777)
-        if 'CMT' in typeID:
-            shutil.copytree(cur_folder, cmt_folder+'\\'+child_folder)
-        else:
-            shutil.copytree(cur_folder, cccd_folder+'\\'+child_folder)
-
+        try:
+            if 'CMT' in typeID:
+                shutil.copytree(cur_folder, cmt_folder+'\\'+child_folder)
+            else:
+                shutil.copytree(cur_folder, cccd_folder+'\\'+child_folder)
+        except:
+            print("can not find folder", cur_folder)
         extractInfor.append(dict_txt)
 
 

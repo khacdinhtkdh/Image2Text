@@ -41,12 +41,12 @@ def detect_text_english(path):
     return text_list
 
 
-remove_list = ['CONG HOA', 'Doc lap', 'CAN CUOC', 'CHUNG MINH', 'Ho va ten', 'Gioi tinh', 'Quoc tich']
+remove_list = ['CONG HOA', 'Doc lap', 'CAN CUOC', 'CHUNG MINH', 'Ho va ten', 'Gioi tinh', 'Quoc tich', 'Dan toc']
 
 
-def get_full_info(path):
+def get_full_info(path, tinh_text):
     text_res = detect_text_english(path)
-    remove_list = ['CONG HOA', 'Doc lap', 'CAN CUOC', 'CHUNG MINH', 'Ho va ten', 'Gioi tinh', 'Quoc tich']
+    remove_list = ['CONG HOA', 'Doc lap', 'CAN CUOC', 'CHUNG MINH', 'SOCIALIST', 'Gioi tinh', 'Quoc tich']
 
     def get_type():
         for v in text_res:
@@ -99,47 +99,88 @@ def get_full_info(path):
         return birth.strftime('%d/%m/%Y')
 
     def getName():
+        name = None
+        ch, ch1, minx = 0, 0, 100
+        for i in range(len(text_res)):
+            if 'Ho va ten' in text_res[i]:
+                ch = i
         for v in text_res:
             vv = v.strip().replace(' ', '')
             if re.fullmatch('[A-Z]+', vv):
-                return v
+                if abs(ch1-ch) < minx:
+                    minx = abs(ch1-ch)
+                    name = v
+            ch1 += 1
+        return name
+
 
     def getAddr():
         arrs = []
+        address = None
+        ss = ""
+        for v in text_res:
+            ss += v + ' '
+
         for v in text_res:
             tmp = re.findall('[\s\S]+,[\s\S]+,[\s\S]+', v)
             if len(tmp) > 0:
                 arrs.append(tmp[0])
         if len(arrs) > 0:
-            vv = arrs[-1]
-            if vv.startswith(' '):
-                vv = vv[1:]
-            return vv
+            address = arrs[-1]
 
-        if 'tru:' in ss:
-            v = ss.split(':')[-1]
-            if '\"' in v:
-                v = v.replace('\"', '')
-            if v.startswith(' '):
-                v = v[1:]
-            return v
+        ch = 0
+        for i in range(len(text_res)):
+            if address in text_res[i]:
+                ch = i
+
+        res = None
+        if address is not None:
+            res = text_res[ch-1] + ', ' + address
+        if ':' in ss:
+            if res is None:
+                res = ss.split(':')[-1]
+
+            if 'Noi thuong tru' in res:
+                res = res.split('Noi thuong tru')[-1]
+            if 'residence' in res:
+                res = res.split('residence')[-1]
+
+            if address is not None:
+                tinh = str(address).split(',')[-1]
+                for tt in tinh_text:
+                    if tt in tinh:
+                        res = res.split(tt)[0]
+                        res += tt
+                        break
+            else:
+                for tt in tinh_text:
+                    if tt in res:
+                        res = res.split(tt)[0]
+                        res += tt
+                        break
+
+        if res is None:
+            res = address
+        if res is None:
+            return None
+        while re.match('[a-zA-Z]', res) is None:
+            res = res[1:]
+        while re.match('[a-zA-Z]', res[-1]) is None:
+            res = res[:-1]
+        return res
 
     typeID = get_type()
     remove_text()
 
+    full_name = getName()
     ID = getID()
     remove_by_text(ID)
     birth = getBirth()
     remove_by_text(birth)
-    full_name = getName()
     remove_by_text(full_name)
 
     for v in remove_list:
         remove_by_text(v)
-
-    ss = ""
-    for v in text_res:
-        ss += v + ' '
 
     addr = getAddr()
 
