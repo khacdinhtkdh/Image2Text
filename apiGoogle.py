@@ -46,6 +46,7 @@ remove_list = ['CONG HOA', 'Doc lap', 'CAN CUOC', 'CHUNG MINH', 'Ho va ten', 'Gi
 
 def get_full_info(path, tinh_text):
     text_res = detect_text_english(path)
+    print(text_res)
     remove_list = ['CONG HOA', 'Doc lap', 'CAN CUOC', 'CHUNG MINH', 'SOCIALIST', 'Gioi tinh', 'Quoc tich']
 
     def get_type():
